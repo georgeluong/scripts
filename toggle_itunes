@@ -34,13 +34,11 @@ done
 if [ "$STATE" == "+x" ]
 then
     echo "Enabling iTunes..."
-    chmod "$STATE" "$ITUNES"
-    ls -ld "$ITUNES"
+    chmod -vvv "$STATE" "$ITUNES"
     echo "Done!"
 elif [ "$STATE" == "-x" ]
 then
     echo "Disabling iTunes..."
-    chmod "$STATE" "$ITUNES"
-    ls -ld "$ITUNES"
+    chmod -vvv "$STATE" "$ITUNES"
     echo "Done!"
 fi
