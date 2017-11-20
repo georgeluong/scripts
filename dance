@@ -1,0 +1,43 @@
+#!/bin/bash
+
+#/ When you're waiting, why not be entertained?
+#/ Usage: dance <TIME>
+
+set -e
+
+usage() {
+  grep "^#/" "$0" | cut -c"4-" >&2
+  exit "$1"
+}
+
+while [ "$#" -gt 0 ]
+do
+    case "$1" in
+        -h|--help) usage 0;;
+        -*) usage 1;;
+        *) break ;;
+    esac
+done
+
+TIME="$1"
+
+if [ -z $1 ];
+then
+  TIME=10
+fi
+
+echo "Sleeping for "$TIME" seconds..."
+
+while [ "$TIME" -gt 0 ]
+do
+  clear
+  if (( "$TIME" % 2 == 0 ))
+  then
+    echo -e "\\(*_*)\n (  (>\n /   \\"
+  else
+    echo -e " (*_*)/\n <)  )\n /   \\"
+  fi
+  echo ""$TIME" second(s) remaining..."
+  let "TIME--"
+  sleep 1
+done
