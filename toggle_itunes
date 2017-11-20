@@ -1,0 +1,46 @@
+#!/bin/sh
+
+#/ Use this script to enable/disable iTunes, because I don't want the playbutton to launch iTunes.
+#/
+#/ Usage: toggle_itunes --enable|--disable
+#/  --enable|-e         Makes iTunes executable so that OSX can update it.
+#/  --disable|-d        Makes iTunes non-executable so that you don't accidentally launch it.
+#/  --help              Prints this page.
+
+set -e
+
+if [ "$(whoami)" != "root" ]
+then exec sudo "$0" "$@"
+fi
+
+ITUNES="/Applications/iTunes.app" STATE=""
+
+usage() {
+  grep "^#/" "$0" | cut -c"4-" >&2
+  exit "$1"
+}
+
+while [ "$#" -gt 0 ]
+do
+    case "$1" in
+        -e|--enable) STATE="+x" shift;;
+        -d|--disable) STATE="-x" shift;;
+        -h|--help) usage 0;;
+        -*) usage 1;;
+        *) break ;;
+    esac
+done
+
+if [ "$STATE" == "+x" ]
+then
+    echo "Enabling iTunes..."
+    chmod "$STATE" "$ITUNES"
+    ls -ld "$ITUNES"
+    echo "Done!"
+elif [ "$STATE" == "-x" ]
+then
+    echo "Disabling iTunes..."
+    chmod "$STATE" "$ITUNES"
+    ls -ld "$ITUNES"
+    echo "Done!"
+fi
